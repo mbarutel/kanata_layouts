@@ -11,10 +11,10 @@
 (deflayer colemak
   caps _    _    _    _    _         _    _    _    _    _    _    _
   grv  @one    @two    @three    @four    @five    @six    @seven    @eight    @nine    @zero    -    =    @scr_sht_cpy
-  tab  q    w    f    p    g    j    l    u    y    '    [    ]    \
+  @tab_switch  q    w    @f_full    p    g    j    l    u    y    '    [    ]    \
   @esc_met a    r    s    t    d    h    n    e    i    o    ;    @ret_rmet
   @lsft_sticky @z_gui    @x_alt    @c_ctl    @v_sft    @b_tmux    k    @m_sft    @comma_ctl    @dot_alt    @slsh_gui    @rsft_sticky
-  @fn lctl lalt @del_lctl           @spc_nav                 @bspc_rctl ralt
+  @fn lctl lalt @del_num           @spc_nav                 @bspc_sym ralt
 )
 
 (deflayer source
@@ -24,6 +24,24 @@
   _    _    _    _    _    _    _    _    _    _    _    _    _    
   _    _    _    _    _    _    _    _ _    _    _   _
   @fn _    _    _              _                   _    _    
+)
+
+(deflayer sym
+  _    _    _    _    _    _         _    _    _    _    _    _    _
+  _    _    _    _    _    _         _    _    _    _    _    _    _    _
+  _    S-[  S-7  S-8  =    S-]       _    _    _    _    _    _    _    _
+  _    S-9  S-4  S-5  S-6  S-0       _    rsft    rctl    ralt    rmet    _    _
+  _    grv  S-1  S-2  S-3  \         _    _    _    _    _    _
+  _    _    _    -              _                   _    _
+)
+
+(deflayer num
+  _    _    _    _    _    _         _    _    _    _    _    _    _
+  _    _    _    _    _    _         _    _    _    _    _    _    _    _
+  _    _    _    _    _    _         /    7    8    9    S-=    _    _    _
+  _    lmet    lalt    lctl    lsft    _         S-8    4    5    6    -    _    _
+  _    _    _    _    _    _         .    1    2    3    =    _
+  _    _    _    _              _                   0    _
 )
 
 (deflayer nav
@@ -58,6 +76,10 @@
   ctrl_b (multi lctrl b)
   b_tmux (tap-hold-release $tap-time $hold-time b @ctrl_b)
 
+  ;; Fullscreen Combo
+  alt_f (multi ralt f)
+  f_full (tap-hold-release $tap-time $hold-time f @alt_f)
+
   ;; Sticky Shift
   rsft_sticky (one-shot 1000 rsft)
   lsft_sticky (one-shot 1000 lsft)
@@ -75,11 +97,15 @@
   ;; tap for return, hold for left meta
   ret_rmet (tap-hold-release $tap-time $hold-time ret rmet)
 
-  ;; tap for delete, hold for left control
-  del_lctl (tap-hold-release $tap-time $hold-time del lctl)
+  ;; tap for delete, hold to toggle num layer
+  del_num (tap-hold-release $tap-time $hold-time del (layer-toggle num))
 
-  ;; tap for backspace, hold for right control
-  bspc_rctl (tap-hold-release $tap-time $hold-time bspc rctl)
+  ;; tap for backspace, hold to toggle sym layer
+  bspc_sym (tap-hold-release $tap-time $hold-time bspc (layer-toggle sym))
+
+  ;; tap for tab, hold for alt + i
+  lalt_i (multi lalt i)
+  tab_switch (tap-hold-release $tap-time $hold-time tab @lalt_i)
 
   ;; Bottom row mods Left Side
   z_gui (tap-hold-release $tap-time $hold-time z lmet)
